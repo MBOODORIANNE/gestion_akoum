@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "123721986259",
+    "project_id": "gestionakom",
+    "storage_bucket": "gestionakom.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:123721986259:android:61133717862df37ac0a426",
+        "android_client_info": {
+          "package_name": "com.example.gestion_akoum"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDPqlt1isio6hMWNfeUOBwLR99asZ4EnLs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
