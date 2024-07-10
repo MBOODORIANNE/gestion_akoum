@@ -7,6 +7,7 @@ import 'package:get/get_state_manager/src/simple/get_state.dart';
 
 import '../../constants/color_app.dart';
 import '../../controller/navBar_controller.dart';
+import '../produits/produits.dart';
 import 'home_screen.dart';
 
 class NavBar extends StatefulWidget {
@@ -28,7 +29,7 @@ class _NavBarState extends State<NavBar> {
           index: controller.tabIndex,
           children:  [
              HomeScreen(),
-
+            Produits()
 
 
           ],

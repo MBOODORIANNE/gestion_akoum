@@ -53,65 +53,70 @@ class _LoginScreenState extends State<LoginScreen> {
          child: SingleChildScrollView(
            child: Padding(
              padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 50),
-             child: Column(
-               children: [
-                 textFieldWith_icon(textEditingController: TextEmail, title: 'email', icon: IconlyLight.message,),
-                const SizedBox(height: 10,),
-                 textFieldWith_icon_ObscureText(textEditingController: Textpassword, title: 'Password',),
-                 Align(
-                      alignment: Alignment.centerRight,
-                     child: TextButton(onPressed: (){}, child: Text("Forget Password?",style: GoogleFonts.montserrat(
-                        color:AppColor.primary,
-                       fontWeight:FontWeight.w600
+             child: Padding(
+               padding: const EdgeInsets.only(top: 30),
+               child: Column(
+                 children: [
+                   Image.asset(login,height: 100, width: 100,),
+                   SizedBox(height: 20,),
+                   textFieldWith_icon(textEditingController: TextEmail, title: "nom d'utilisateur", icon: IconlyLight.message,),
+                  const SizedBox(height: 10,),
+                   textFieldWith_icon_ObscureText(textEditingController: Textpassword, title: 'mot de passe',),
+                   /*Align(
+                        alignment: Alignment.centerRight,
+                       child: TextButton(onPressed: (){}, child: Text("Forget Password?",style: GoogleFonts.montserrat(
+                          color:AppColor.primary,
+                         fontWeight:FontWeight.w600
 
-                     ),
-                     )
-                     )
-                 ),
-                 const SizedBox(height: 20,),
-                 round_button(title: 'Login', onPressed:(){
-                   Get.to(NavBar());
-                 }
-             /*   CustomDialog.showCustomDialog(
-                    context, "Yeay! Welcome Back",
-                    "Once again you login successfully \n into medidoc app",
-                    "Go to home",
-                        (){
-          );*/
+                       ),
+                       )
+                       )
+                   ),*/
+                   const SizedBox(height: 20,),
+                   round_button(title: 'Login', onPressed:(){
+                     Get.to(NavBar());
+                   }
+               /*   CustomDialog.showCustomDialog(
+                      context, "Yeay! Welcome Back",
+                      "Once again you login successfully \n into medidoc app",
+                      "Go to home",
+                          (){
+                         );*/
 
-                 ,
-                 ),
-                 SizedBox(height: 10,),
-                 Align(
-                   alignment: Alignment.center,
-                     child: Row(
-                       crossAxisAlignment: CrossAxisAlignment.center,
-                       mainAxisAlignment: MainAxisAlignment.center,
-                       children: [
-                         Text("Don’\ t have an account?",style: GoogleFonts.montserrat(
-                             color:AppColor.secondaryText,
-                             fontSize:15
+                   ,
+                   ),
+                   SizedBox(height: 10,),
+                   Align(
+                     alignment: Alignment.center,
+                       child: Row(
+                         crossAxisAlignment: CrossAxisAlignment.center,
+                         mainAxisAlignment: MainAxisAlignment.center,
+                         children: [
+                           Text("Don’\ t have an account?",style: GoogleFonts.montserrat(
+                               color:AppColor.secondaryText,
+                               fontSize:15
 
-                         ),
-                         ),
-                         SizedBox(height: 20,),
+                           ),
+                           ),
+                           SizedBox(height: 20,),
 
-                         TextButton(onPressed: (){}, child: Text("Sign Up",style: GoogleFonts.montserrat(
-                             color:AppColor.primary,
-                             fontWeight:FontWeight.w500,
-                             fontSize:15
-                         ),
-                         )
+                           TextButton(onPressed: (){}, child: Text("Sign Up",style: GoogleFonts.montserrat(
+                               color:AppColor.primary,
+                               fontWeight:FontWeight.w500,
+                               fontSize:15
+                           ),
+                           )
 
-                         ),
-                       ],
-                     )
-                 ),
-                 Rouded_buttonWitthIcon(title: 'Sign in with Google', image: googleIcon, onPressed: () {
+                           ),
+                         ],
+                       )
+                   ),
+                  /* Rouded_buttonWitthIcon(title: 'Sign in with Google', image: googleIcon, onPressed: () {
 
 
-                 },)
-               ],
+                   },)*/
+                 ],
+               ),
              ),
            ),
          ),

@@ -1,11 +1,9 @@
-const String Applogo="assets/image/applogo.png";
-
+const String Applogo="assets/image/akoum.png";
+const String login="assets/image/logo_home.png";
 const String avatar="assets/image/Avatar.png";
 const String avatar2="assets/image/a2.png";
 const String avatar3="assets/image/a3.png";
 const String pro="assets/image/pro.png";
-
-
 const String d1="assets/image/d1.png";
 const String d2="assets/image/d2.png";
 const String d3="assets/image/d3.png";
@@ -21,8 +19,6 @@ const String para="assets/image/para.png";
 const String caton="assets/image/caton.png";
 const String ct="assets/image/ct.png";
 const String Comprimer="assets/image/comprimer.jpg";
-
-
 const String lung="assets/image/lun.png";
 const String covid="assets/image/Covid.png";
 const String phy="assets/image/Psychiatrist.png";
