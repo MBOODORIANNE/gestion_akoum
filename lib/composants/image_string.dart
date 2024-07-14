@@ -9,6 +9,7 @@ const String d2="assets/image/d2.png";
 const String d3="assets/image/d3.png";
 const String d4="assets/image/d4.png";
 const String profile="assets/image/profile.jpeg";
+const String may="assets/image/may.jpg";
 const String callaudio="assets/image/callaudio.jpg";
 const String avatarglow="assets/image/avatarglow.png";
 const String doctotcall="assets/image/doctorcall.png";

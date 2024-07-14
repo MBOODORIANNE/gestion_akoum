@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gestion_akoum/pages/Login_signup/welcome_screen.dart';
 import 'package:gestion_akoum/pages/home.dart';
+import 'package:gestion_akoum/pages/home_screen/nav_bar.dart';
 import 'package:gestion_akoum/pages/splashScreen/splash_screen.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:gestion_akoum/pages/produit/product.dart';
@@ -30,7 +31,7 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        home: ProductListScreen(),
+        home: NavBar(),
         debugShowCheckedModeBanner: false,
       ),
       designSize: Size(360, 690),

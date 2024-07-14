@@ -213,7 +213,106 @@ class _HomeScreenState extends State<HomeScreen> {
                         Text("(30)",style: TextStyle(color:AppColor.primary,fontWeight: FontWeight.bold,fontSize: 16),),
 
                       ],
-                    )
+                    ),
+                   SizedBox(
+                     height: 400,
+                       child:ListView(
+                         children: [
+                           Padding(
+                             padding: const EdgeInsets.all(2.0),
+                             child: Container(
+                               height: 97,
+                               width: double.infinity,
+                               decoration:BoxDecoration(
+                                 color: Colors.grey[200],
+                                 borderRadius: BorderRadius.circular(10)
+                               ),
+                               child: Row(
+
+                                 children: [
+                                   Image.asset(may),
+                                   SizedBox(width: 20,),
+                                   Padding(
+                                     padding: const EdgeInsets.all(8.0),
+                                     child: Column(
+                                       crossAxisAlignment: CrossAxisAlignment.start,
+                                       children: [
+                                         Text("mayor cameroun",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20),),
+                                         SizedBox(height: 5,),
+                                         Text("Douala.cameroun",style: TextStyle(fontSize: 14),),
+                                         Text("2000 fcfa",style: TextStyle(fontSize: 13),),
+                                       ],
+                                     ),
+                                   )
+                                 ],
+                               ),
+                             ),
+                           ),
+                           Padding(
+                             padding: const EdgeInsets.all(2.0),
+                             child: Container(
+                               height: 97,
+                               width: double.infinity,
+                               decoration:BoxDecoration(
+                                 color: Colors.grey[200],
+                                 borderRadius: BorderRadius.circular(10)
+                               ),
+                               child: Row(
+
+                                 children: [
+                                   Image.asset(Applogo),
+                                   SizedBox(width: 20,),
+                                   Padding(
+                                     padding: const EdgeInsets.all(8.0),
+                                     child: Column(
+                                       crossAxisAlignment: CrossAxisAlignment.start,
+                                       children: [
+                                         Text("café au choco",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20),),
+                                         SizedBox(height: 5,),
+                                         Text("Douala.cameroun",style: TextStyle(fontSize: 14),),
+                                         Text("2000 fcfa",style: TextStyle(fontSize: 13),),
+                                       ],
+                                     ),
+                                   )
+                                 ],
+                               ),
+                             ),
+                           ),
+                           Padding(
+                             padding: const EdgeInsets.all(2.0),
+                             child: Container(
+                               height: 97,
+                               width: double.infinity,
+                               decoration:BoxDecoration(
+                                 color: Colors.grey[200],
+                                 borderRadius: BorderRadius.circular(10)
+                               ),
+                               child: Row(
+
+                                 children: [
+                                   Image.asset(may),
+                                   SizedBox(width: 20,),
+                                   Padding(
+                                     padding: const EdgeInsets.all(8.0),
+                                     child: Column(
+                                       crossAxisAlignment: CrossAxisAlignment.start,
+                                       children: [
+                                         Text("huile d'olive",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20),),
+                                         SizedBox(height: 5,),
+                                         Text("Douala.cameroun",style: TextStyle(fontSize: 14),),
+                                         Text("2000 fcfa",style: TextStyle(fontSize: 13),),
+                                       ],
+                                     ),
+                                   )
+                                 ],
+                               ),
+                             ),
+                           ),
+
+
+                         ],
+                       ),
+                   ),
                   ],
                 )
               ],
