@@ -11,7 +11,7 @@ import '../../composants/modal_show.dart';
 import '../../composants/textfield_with_icon.dart';
 import '../../constants/color_app.dart';
 import '../../models/User_Model.dart';
-import 'login_screen.dart';
+import 'login_screen.dart'; 
 
 
 class SignUpScreen extends StatefulWidget {
