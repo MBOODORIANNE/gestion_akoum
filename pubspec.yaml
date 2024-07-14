@@ -47,6 +47,8 @@ dependencies:
   flutter_screenutil: ^5.9.0
   avatar_glow: ^3.0.1
   toastification: ^2.0.0
+  fl_chart: ^0.68.0
+  percent_indicator: ^4.2.3
 dev_dependencies:
   flutter_test:
     sdk: flutter
