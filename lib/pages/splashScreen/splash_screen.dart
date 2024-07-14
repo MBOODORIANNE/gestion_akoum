@@ -7,8 +7,6 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../composants/image_string.dart';
 import '../../constants/color_app.dart';
-
-
 class SplashScreen extends StatefulWidget {
 
 
@@ -44,11 +42,14 @@ class _SplashScreenState extends State<SplashScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-               Animate(
-                    child:Image.asset(Applogo,height: 100, width: 100,),
-                  ),
+              /*  Animate(
+
+                    effects: [ FadeEffect(duration: 4.seconds),RotateEffect(alignment: Alignment.center,duration: 4.seconds,)],
+                    child:     Image.asset(Applogo),
+                  ),*/
+           //   Lottie.asset("assets/image/an.json",width: 300,height: 300, backgroundLoading: false),
               SizedBox(height: 10.h,),
-              Text("AKOM",style: GoogleFonts.montserrat(
+              Text("Medics",style: GoogleFonts.montserrat(
                 fontSize: 40,
                 color:AppColor.primary,
                 fontWeight:FontWeight.bold,

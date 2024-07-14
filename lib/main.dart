@@ -5,11 +5,15 @@ import 'package:gestion_akoum/pages/Login_signup/welcome_screen.dart';
 import 'package:gestion_akoum/pages/home.dart';
 import 'package:gestion_akoum/pages/splashScreen/splash_screen.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
+import 'package:gestion_akoum/pages/produit/product.dart';
+import 'package:gestion_akoum/pages/produit/product_list_screen.dart';
+import 'package:gestion_akoum/pages/produit/doctor_list.dart';
 
 import 'firebase_options.dart';
 
-void main() {
-// Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+void main()async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(const MyApp());
 }
 
@@ -26,11 +30,10 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        home: SplashScreen(),
+        home: ProductListScreen(),
         debugShowCheckedModeBanner: false,
       ),
       designSize: Size(360, 690),
     );
   }
 }
-
