@@ -7,6 +7,7 @@ import 'package:flutter_iconly/flutter_iconly.dart';
 import '../../composants/RoundedButton.dart';
 import '../../composants/TextFieldwithObscureText.dart';
 
+import '../../composants/image_string.dart';
 import '../../composants/modal_show.dart';
 import '../../composants/textfield_with_icon.dart';
 import '../../constants/color_app.dart';
@@ -116,6 +117,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
             child: Column(
               children: [
                 //==========================Text field input=======================================//
+                Image.asset(login,height: 100, width: 100,),
+                SizedBox(height: 20,),
                 textFieldWith_icon(
                   textEditingController: textName,
                   title: 'Enter your name',

@@ -11,7 +11,7 @@ import 'package:gestion_akoum/pages/produit/doctor_list.dart';
 
 import 'firebase_options.dart';
 
-void main() async {
+void main()async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(const MyApp());

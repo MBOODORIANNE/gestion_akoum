@@ -1,4 +1,4 @@
-const String Applogo="assets/image/applogo.png";
+const String Applogo="assets/image/akoum.png";
 
 const String avatar="assets/image/Avatar.png";
 const String avatar2="assets/image/a2.png";
