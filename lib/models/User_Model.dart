@@ -1,61 +1,82 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_auth/firebase_auth.dart' as auth;
 
-class User {
+class Utilisateur {
   String nom;
   String prenom;
-  String email;
-  String password;
+  String nomUtilisateur;
+  String numeroTelephone;
+  String motDePasse;
 
-  User({
+  Utilisateur({
     required this.nom,
     required this.prenom,
-    required this.email,
-    required this.password,
+    required this.nomUtilisateur,
+    required this.numeroTelephone,
+    required this.motDePasse,
   });
+}
 
-  Map<String, dynamic> toMap() {
-    return {
-      'nom': nom,
-      'prenom': prenom,
-      'email': email,
-      'password': password,
-    };
-  }
 
-  factory User.fromMap(Map<String, dynamic> map) {
-    return User(
-      nom: map['nom'],
-      prenom: map['prenom'],
-      email: map['email'],
-      password: map['password'],
+
+
+Future<User?> inscrireUtilisateur(Utilisateur utilisateur) async {
+  FirebaseAuth auth = FirebaseAuth.instance;
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+  try {
+    // Utilisez l'adresse e-mail fictive basée sur le nom d'utilisateur pour créer l'utilisateur Firebase
+    UserCredential userCredential = await auth.createUserWithEmailAndPassword(
+      email: '${utilisateur.nomUtilisateur}@example.com',
+      password: utilisateur.motDePasse,
     );
+
+    User? user = userCredential.user;
+
+    // Sauvegarder d'autres informations utilisateur dans Firestore
+    await firestore.collection('utilisateurs').doc(user!.uid).set({
+      'nom': utilisateur.nom,
+      'prenom': utilisateur.prenom,
+      'nomUtilisateur': utilisateur.nomUtilisateur,
+      'numeroTelephone': utilisateur.numeroTelephone,
+    });
+
+    return user;
+  } catch (e) {
+    print("Erreur d'inscription: $e");
+    return null;
   }
 }
 
 
-Future<void> registerUser(User user) async {
+Future<User?> connecterUtilisateur(String nomUtilisateur, String motDePasse) async {
+  FirebaseAuth auth = FirebaseAuth.instance;
+
   try {
-    auth.UserCredential userCredential = await auth.FirebaseAuth.instance.createUserWithEmailAndPassword(
-      email: user.email,
-      password: user.password,
+    // Utilisez l'adresse e-mail fictive basée sur le nom d'utilisateur pour se connecter
+    UserCredential userCredential = await auth.signInWithEmailAndPassword(
+      email: '${nomUtilisateur}@example.com',
+      password: motDePasse,
     );
 
-    await FirebaseFirestore.instance.collection('Users').doc(userCredential.user?.uid).set(user.toMap());
+    User? user = userCredential.user;
+    return user;
   } catch (e) {
-    print(e);
+    print("Erreur de connexion: $e");
+    return null;
   }
 }
-Future<String?> loginUser(String email, String password) async {
-  try {
-    auth.UserCredential userCredential = await auth.FirebaseAuth.instance.signInWithEmailAndPassword(
-      email: email,
-      password: password,
-    );
 
-    return userCredential.user?.uid;
-  } catch (e) {
-    return 'Email ou mot de passe incorrect';
+
+Future<Map<String, dynamic>?> getUserData() async {
+  User? currentUser = FirebaseAuth.instance.currentUser;
+
+  if (currentUser != null) {
+    DocumentSnapshot userDoc = await FirebaseFirestore.instance
+        .collection('utilisateurs')
+        .doc(currentUser.uid)
+        .get();
+    return userDoc.data() as Map<String, dynamic>?;
   }
+  return null;
 }

@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -13,6 +14,7 @@ import '../../composants/image_string.dart';
 import '../../composants/roundedButtonIcon.dart';
 import '../../composants/textfield_with_icon.dart';
 import '../../constants/color_app.dart';
+import '../../models/User_Model.dart';
 import '../home_screen/home_screen.dart';
 import '../home_screen/nav_bar.dart';
 
@@ -24,20 +26,26 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  TextEditingController TextEmail=TextEditingController();
-  TextEditingController Textpassword=TextEditingController();
-  /*void _login() async {
+  final _nomUtilisateurController = TextEditingController();
+  final _motDePasseController = TextEditingController();
 
-     // String? result = await loginUser(TextEmail.text, Textpassword.text);
-      if (result == null) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Login successful')));
-        Navigator.push(context, MaterialPageRoute(builder: (context)=>NavBar()));
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(result)));
-        Navigator.push(context, MaterialPageRoute(builder: (context)=>NavBar()));
-      }
+  void _login() async {
 
-  }*/
+    User? user = await connecterUtilisateur(
+      _nomUtilisateurController.text,
+      _motDePasseController.text,
+    );
+    if (user != null) {
+      // Naviguer vers une autre page ou afficher un message de succès
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Login successful')));
+      Navigator.push(context, MaterialPageRoute(builder: (context)=>NavBar()));
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Erreur lors de la connexion')),
+      );
+    }
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,9 +67,9 @@ class _LoginScreenState extends State<LoginScreen> {
                  children: [
                    Image.asset(login,height: 100, width: 100,),
                    SizedBox(height: 20,),
-                   textFieldWith_icon(textEditingController: TextEmail, title: "nom d'utilisateur", icon: IconlyLight.message,),
+                   textFieldWith_icon(textEditingController:  _nomUtilisateurController, title: "nom d'utilisateur", icon: IconlyLight.message,),
                   const SizedBox(height: 10,),
-                   textFieldWith_icon_ObscureText(textEditingController: Textpassword, title: 'mot de passe',),
+                   textFieldWith_icon_ObscureText(textEditingController: _motDePasseController, title: 'mot de passe',),
                    /*Align(
                         alignment: Alignment.centerRight,
                        child: TextButton(onPressed: (){}, child: Text("Forget Password?",style: GoogleFonts.montserrat(
@@ -73,9 +81,7 @@ class _LoginScreenState extends State<LoginScreen> {
                        )
                    ),*/
                    const SizedBox(height: 20,),
-                   round_button(title: 'Login', onPressed:(){
-                     Get.to(NavBar());
-                   }
+                   round_button(title: 'Login', onPressed:_login,
                /*   CustomDialog.showCustomDialog(
                       context, "Yeay! Welcome Back",
                       "Once again you login successfully \n into medidoc app",
@@ -83,7 +89,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           (){
                          );*/
 
-                   ,
+
                    ),
                    SizedBox(height: 10,),
                    Align(

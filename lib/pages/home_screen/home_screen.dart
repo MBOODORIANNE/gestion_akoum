@@ -1,6 +1,8 @@
 import 'dart:ffi';
 
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -62,7 +64,25 @@ class _HomeScreenState extends State<HomeScreen> {
   ];
 
   TextEditingController TxtSearch=TextEditingController();
+  String? nomUtilisateur;
   @override
+  void initState(){
+    super.initState();
+    _fetchUserData();
+  }
+  Future<void> _fetchUserData() async {
+    User? currentUser = FirebaseAuth.instance.currentUser;
+
+    if (currentUser != null) {
+      DocumentSnapshot userDoc = await FirebaseFirestore.instance
+          .collection('utilisateurs')
+          .doc(currentUser.uid)
+          .get();
+      setState(() {
+        nomUtilisateur = userDoc['nomUtilisateur'];
+      });
+    }
+  }
   Widget build(BuildContext context) {
     return   Scaffold(
 
@@ -91,7 +111,15 @@ class _HomeScreenState extends State<HomeScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text("Chicago Farid",style:TextStyle(color: Colors.black,fontSize:25,fontWeight: FontWeight.bold)),
+                        nomUtilisateur != null
+                            ? Text(
+                          nomUtilisateur!,
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 25,
+                              fontWeight: FontWeight.bold),
+                        )
+                            : CircularProgressIndicator(),
                         Container(
                           width: 50,
                           height: 50,

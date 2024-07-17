@@ -1,5 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gestion_akoum/pages/home_screen/nav_bar.dart';
+import 'package:get/get.dart';
 
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
@@ -23,14 +26,16 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-  TextEditingController textName = TextEditingController();
-  TextEditingController textprenom = TextEditingController();
-  TextEditingController textEmail = TextEditingController();
-  TextEditingController textPassword = TextEditingController();
+  final _nomController = TextEditingController();
+  final _prenomController = TextEditingController();
+  final _nomUtilisateurController = TextEditingController();
+  final _numeroTelephoneController = TextEditingController();
+  final _motDePasseController = TextEditingController();
+
   bool _isChecked = false;
 
   void _register() async {
-    if (textPassword.text.length < 6) {
+    if (_motDePasseController.text.length < 6) {
       CustomDialog.showCustomDialog(
         context,
         "Error",
@@ -43,22 +48,29 @@ class _SignUpScreenState extends State<SignUpScreen> {
       );
       return;
     }
-
     showLoadingDialog(context);
+        Utilisateur utilisateur = Utilisateur(
+          nom: _nomController.text,
+          prenom: _prenomController.text,
+          nomUtilisateur: _nomUtilisateurController.text,
+          numeroTelephone: _numeroTelephoneController.text,
+          motDePasse: _motDePasseController.text,
+        );
 
-    User user = User(
-      nom: textName.text,
-      prenom: textprenom.text,
-      email: textEmail.text,
-      password: textPassword.text,
-    );
+        User? user = await inscrireUtilisateur(utilisateur);
+        if (user != null) {
+          Get.to(NavBar());
+        } else {
+          // Afficher un message d'erreur
+        }
 
     try {
-      await registerUser(user);
-      textName.clear();
-      textprenom.clear();
-      textEmail.clear();
-      textPassword.clear();
+    await inscrireUtilisateur(utilisateur);
+    _nomController.clear();
+    _prenomController.clear();
+    _nomUtilisateurController.clear();
+    _numeroTelephoneController.clear();
+    _motDePasseController.clear();
       Navigator.of(context).pop(); // Fermer le dialogue de progression
 
       CustomDialog.showCustomDialog(
@@ -85,6 +97,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         Icons.error,
       );
     }
+
   }
 
   void showLoadingDialog(BuildContext context) {
@@ -120,26 +133,32 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 Image.asset(login,height: 100, width: 100,),
                 SizedBox(height: 20,),
                 textFieldWith_icon(
-                  textEditingController: textName,
+                  textEditingController:_nomController,
                   title: 'Enter your name',
                   icon: IconlyLight.user2,
                 ),
                 const SizedBox(height: 10),
                 textFieldWith_icon(
-                  textEditingController: textprenom,
+                  textEditingController:  _prenomController,
                   title: 'Enter your lasname',
                   icon: IconlyLight.user2,
                 ),
                 const SizedBox(height: 10),
                 textFieldWith_icon(
-                  textEditingController: textEmail,
-                  title: 'Enter your email',
+                  textEditingController:_nomUtilisateurController,
+                  title: "nom d'utilisateur ",
+                  icon: IconlyLight.message,
+                ),
+                const SizedBox(height: 10),
+                textFieldWith_icon(
+                  textEditingController:_numeroTelephoneController,
+                  title: 'numero de telephone',
                   icon: IconlyLight.message,
                 ),
                 const SizedBox(height: 10),
                 textFieldWith_icon_ObscureText(
-                  textEditingController: textPassword,
-                  title: 'Enter your password',
+                  textEditingController: _motDePasseController,
+                  title: 'mot de passe',
                 ),
                 //=================================================================//
                 Align(
@@ -207,7 +226,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ),
                       const SizedBox(height: 20),
                       TextButton(
-                        onPressed: () {},
+                        onPressed: () async{
+
+                        },
                         child: Text(
                           "Sign Up",
                           style: GoogleFonts.montserrat(
