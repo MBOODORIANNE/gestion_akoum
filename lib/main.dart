@@ -4,16 +4,17 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gestion_akoum/pages/Login_signup/SignUp_Screen.dart';
 import 'package:gestion_akoum/pages/Login_signup/welcome_screen.dart';
 import 'package:gestion_akoum/pages/home.dart';
+import 'package:gestion_akoum/pages/employee.dart';
 import 'package:gestion_akoum/pages/home_screen/nav_bar.dart';
 import 'package:gestion_akoum/pages/splashScreen/splash_screen.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:gestion_akoum/pages/produit/product.dart';
 import 'package:gestion_akoum/pages/produit/product_list_screen.dart';
 import 'package:gestion_akoum/pages/produit/doctor_list.dart';
-
+import 'package:gestion_akoum/pages/database.dart';
 import 'firebase_options.dart';
 
-void main()async {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(const MyApp());
@@ -32,7 +33,7 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        home: SignUpScreen(),
+        home: Home(),
         debugShowCheckedModeBanner: false,
       ),
       designSize: Size(360, 690),
