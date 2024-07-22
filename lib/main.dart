@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gestion_akoum/pages/Login_signup/SignUp_Screen.dart';
 import 'package:gestion_akoum/pages/Login_signup/welcome_screen.dart';
+import 'package:gestion_akoum/pages/categorie/categoriePage.dart';
 import 'package:gestion_akoum/pages/home.dart';
 import 'package:gestion_akoum/pages/employee.dart';
 import 'package:gestion_akoum/pages/home_screen/nav_bar.dart';
@@ -33,7 +34,7 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        home: Home(),
+        home: NavBar(),
         debugShowCheckedModeBanner: false,
       ),
       designSize: Size(360, 690),

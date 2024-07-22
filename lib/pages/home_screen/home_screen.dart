@@ -7,10 +7,14 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gestion_akoum/constants/color_app.dart';
+import 'package:gestion_akoum/pages/categorie/allCategories.dart';
 import 'package:get/get.dart';
+import 'package:get/get_state_manager/src/simple/list_notifier.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../composants/image_string.dart';
+import '../../controller/categorieController.dart';
+import '../../models/Categorie.dart';
 
 
 class HomeScreen extends StatefulWidget {
@@ -21,52 +25,15 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  List dataCart=[
-    {
-      "image":c1,
-      "description":"doctor",
-    },
-    {
-      "image":c2,
-      "description":"Pharmacy",
-    },
-    {
-      "image":c3,
-      "description":"hospital",
-    },
-    {
-      "image":c4,
-      "description":"Ambulance",
-    }
-  ];
-
-  List DoctorCard=[
-    {
-      "name":"Dr. Marcus Horizon",
-      "location":"800m away",
-      "desc":"Psychologist",
-      "image":"assets/image/Avatar.png",
-    },
-    {
-      "name":"Dr. Maria Elena",
-      "location":"1,5km away",
-      "desc":"Chardiologist",
-      "image":"assets/image/a2.png",
-    },
-    {
-      "name":"Dr. Stevi Jessi",
-      "location":"2km away",
-      "image":"assets/image/a3.png",
-      "desc":"Orthopedist",
-    },
-  ];
-
+  final CategorieService categorieService = CategorieService();
   TextEditingController TxtSearch=TextEditingController();
   String? nomUtilisateur;
   @override
   void initState(){
     super.initState();
     _fetchUserData();
+    categorieService.recupererCategories();
+
   }
   Future<void> _fetchUserData() async {
     User? currentUser = FirebaseAuth.instance.currentUser;
@@ -84,7 +51,20 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return   Scaffold(
 
-      body: SingleChildScrollView(
+      body:
+      FutureBuilder<List<Categorie>>(
+        future: categorieService.recupererCategories(),
+    builder: (context, snapshot) {
+    if (snapshot.connectionState == ConnectionState.waiting) {
+    return Center(child: CircularProgressIndicator());
+    } else if (snapshot.hasError) {
+    return Center(child: Text('Erreur : ${snapshot.error}'));
+    } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+    return Center(child: Text('Aucune catégorie trouvée'));
+    } else {
+    List<Categorie> categories = snapshot.data!;
+
+        return SingleChildScrollView(
         child: SafeArea(
 
           child: Padding(
@@ -202,6 +182,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         ],
                                       ),
                                     ),
+
                                     SizedBox(height: 20,),
                                     Container( height: 2,width: 140,color: AppColor.primary,),
                                     SizedBox(height: 10,),
@@ -235,11 +216,47 @@ class _HomeScreenState extends State<HomeScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
 
+                        Text("categorie",style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 16),),
+                        TextButton(onPressed:(){
+                          Get.to(CategoriePage());
+                        }, child:Text("voir plus",style: TextStyle(color:AppColor.primary,fontWeight: FontWeight.bold,fontSize: 16),))
+
+                      ],
+                    ),
+                    SizedBox(
+                        height: 50,
+                        child: ListView.builder(
+                            itemCount: categories.length,
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: (context, index){
+                              Categorie categorie = categories[index];
+                              return Padding(
+                                padding: const EdgeInsets.symmetric(horizontal:2),
+                                child: Container(
+                                  width: 110,
+                                  height: 50,
+                                  decoration: BoxDecoration(
+                                    color: AppColor.primary,
+                                    borderRadius: BorderRadius.circular(13),
+
+                                  ),
+                                  child: Center(child: Text(categorie.nomCategorie.toString(),style: TextStyle( color: Colors.white),),),
+                                ),
+                              );
+                            }
+                        )
+                    ),
+                    SizedBox(height: 20,),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+
                         Text("Producteur local",style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 16),),
                         Text("(30)",style: TextStyle(color:AppColor.primary,fontWeight: FontWeight.bold,fontSize: 16),),
 
                       ],
                     ),
+
                    SizedBox(
                      height: 400,
                        child:ListView(
@@ -345,7 +362,10 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
         ),
-      ),
+      );
+    }
+    }
+    )
     );
   }
 
