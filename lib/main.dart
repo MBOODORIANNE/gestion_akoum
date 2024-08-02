@@ -7,6 +7,8 @@ import 'package:gestion_akoum/pages/categorie/categoriePage.dart';
 import 'package:gestion_akoum/pages/home.dart';
 import 'package:gestion_akoum/pages/employee.dart';
 import 'package:gestion_akoum/pages/home_screen/nav_bar.dart';
+import 'package:gestion_akoum/pages/produit/addProductWithimage.dart';
+import 'package:gestion_akoum/pages/produit/addproduct.dart';
 import 'package:gestion_akoum/pages/splashScreen/splash_screen.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:gestion_akoum/pages/produit/product.dart';

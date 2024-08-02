@@ -30,7 +30,7 @@ class _NavBarState extends State<NavBar> {
           index: controller.tabIndex,
           children:  [
              HomeScreen(),
-            Produits(),
+            ProductsPage(),
             CategoriePage(),
 
 
