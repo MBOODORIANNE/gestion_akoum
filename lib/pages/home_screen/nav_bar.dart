@@ -8,6 +8,7 @@ import 'package:get/get_state_manager/src/simple/get_state.dart';
 import '../../constants/color_app.dart';
 import '../../controller/navBar_controller.dart';
 import '../categorie/categoriePage.dart';
+import '../point_de_vente/List_point_of_sale.dart';
 import '../produits/produits.dart';
 import 'home_screen.dart';
 
@@ -32,6 +33,7 @@ class _NavBarState extends State<NavBar> {
              HomeScreen(),
             ProductsPage(),
             CategoriePage(),
+            ListPoinTofSales()
 
 
           ],
