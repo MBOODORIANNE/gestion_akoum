@@ -31,4 +31,6 @@ class DatabaseMethods {
   ) async {
     return await FirebaseFirestore.instance.collection("employee").doc(id);
   }
-}
+  }
+
+
