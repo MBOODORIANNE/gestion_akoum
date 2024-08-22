@@ -216,7 +216,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
 
-                        Text("categorie",style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 16),),
+                        Text("categories",style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 16),),
                         TextButton(onPressed:(){
                           Get.to(CategoriePage());
                         }, child:Text("voir plus",style: TextStyle(color:AppColor.primary,fontWeight: FontWeight.bold,fontSize: 16),))
@@ -251,111 +251,82 @@ class _HomeScreenState extends State<HomeScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
 
-                        Text("Producteur local",style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 16),),
+                        Text("Produits local",style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 16),),
                         Text("(30)",style: TextStyle(color:AppColor.primary,fontWeight: FontWeight.bold,fontSize: 16),),
 
                       ],
                     ),
 
-                   SizedBox(
-                     height: 400,
-                       child:ListView(
-                         children: [
-                           Padding(
-                             padding: const EdgeInsets.all(2.0),
-                             child: Container(
-                               height: 97,
-                               width: double.infinity,
-                               decoration:BoxDecoration(
-                                 color: Colors.grey[200],
-                                 borderRadius: BorderRadius.circular(10)
-                               ),
-                               child: Row(
+                    SizedBox(
+                      height: 400,
+                      child: StreamBuilder<QuerySnapshot>(
+                        stream: FirebaseFirestore.instance
+                            .collection('products')
+                            .limit(5) // Limite à 5 produits
+                            .snapshots(),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState == ConnectionState.waiting) {
+                            return Center(child: CircularProgressIndicator());
+                          } else if (snapshot.hasError) {
+                            return Center(child: Text('Erreur : ${snapshot.error}'));
+                          } else if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                            return Center(child: Text('Aucun produit trouvé'));
+                          } else {
+                            var products = snapshot.data!.docs;
+                            return ListView.builder(
+                              itemCount: products.length,
+                              itemBuilder: (context, index) {
+                                var product = products[index];
+                                return Padding(
+                                  padding: const EdgeInsets.all(2.0),
+                                  child: Container(
+                                    height: 97,
+                                    width: double.infinity,
+                                    decoration: BoxDecoration(
+                                      color: Colors.grey[200],
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        Image.network(
+                                          product['imageUrl'], // Assurez-vous que les images sont stockées dans Firestore
+                                          width: 80, // Ajustez la taille de l'image
+                                          height: 80,
+                                          fit: BoxFit.cover,
+                                        ),
+                                        SizedBox(width: 20),
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                product['name'], // Nom du produit
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 20,
+                                                ),
+                                              ),
+                                              SizedBox(height: 5),
+                                                                 
+                                              Text(
+                                                '${product['price']} FCFA', // Prix du produit
+                                                style: TextStyle(fontSize: 13),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              },
+                            );
+                          }
+                        },
+                      ),
+                    )
 
-                                 children: [
-                                   Image.asset(may),
-                                   SizedBox(width: 20,),
-                                   Padding(
-                                     padding: const EdgeInsets.all(8.0),
-                                     child: Column(
-                                       crossAxisAlignment: CrossAxisAlignment.start,
-                                       children: [
-                                         Text("mayor cameroun",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20),),
-                                         SizedBox(height: 5,),
-                                         Text("Douala.cameroun",style: TextStyle(fontSize: 14),),
-                                         Text("2000 fcfa",style: TextStyle(fontSize: 13),),
-                                       ],
-                                     ),
-                                   )
-                                 ],
-                               ),
-                             ),
-                           ),
-                           Padding(
-                             padding: const EdgeInsets.all(2.0),
-                             child: Container(
-                               height: 97,
-                               width: double.infinity,
-                               decoration:BoxDecoration(
-                                 color: Colors.grey[200],
-                                 borderRadius: BorderRadius.circular(10)
-                               ),
-                               child: Row(
-
-                                 children: [
-                                   Image.asset(Applogo),
-                                   SizedBox(width: 20,),
-                                   Padding(
-                                     padding: const EdgeInsets.all(8.0),
-                                     child: Column(
-                                       crossAxisAlignment: CrossAxisAlignment.start,
-                                       children: [
-                                         Text("café au choco",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20),),
-                                         SizedBox(height: 5,),
-                                         Text("Douala.cameroun",style: TextStyle(fontSize: 14),),
-                                         Text("2000 fcfa",style: TextStyle(fontSize: 13),),
-                                       ],
-                                     ),
-                                   )
-                                 ],
-                               ),
-                             ),
-                           ),
-                           Padding(
-                             padding: const EdgeInsets.all(2.0),
-                             child: Container(
-                               height: 97,
-                               width: double.infinity,
-                               decoration:BoxDecoration(
-                                 color: Colors.grey[200],
-                                 borderRadius: BorderRadius.circular(10)
-                               ),
-                               child: Row(
-
-                                 children: [
-                                   Image.asset(may),
-                                   SizedBox(width: 20,),
-                                   Padding(
-                                     padding: const EdgeInsets.all(8.0),
-                                     child: Column(
-                                       crossAxisAlignment: CrossAxisAlignment.start,
-                                       children: [
-                                         Text("huile d'olive",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20),),
-                                         SizedBox(height: 5,),
-                                         Text("Douala.cameroun",style: TextStyle(fontSize: 14),),
-                                         Text("2000 fcfa",style: TextStyle(fontSize: 13),),
-                                       ],
-                                     ),
-                                   )
-                                 ],
-                               ),
-                             ),
-                           ),
-
-
-                         ],
-                       ),
-                   ),
                   ],
                 )
               ],

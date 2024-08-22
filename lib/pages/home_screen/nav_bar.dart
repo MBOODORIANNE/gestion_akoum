@@ -5,6 +5,7 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_state_manager/src/simple/get_state.dart';
 
 
+import '../../admi/homes.dart';
 import '../../constants/color_app.dart';
 import '../../controller/navBar_controller.dart';
 import '../categorie/categoriePage.dart';
@@ -33,7 +34,8 @@ class _NavBarState extends State<NavBar> {
              HomeScreen(),
             ProductsPage(),
             CategoriePage(),
-            ListPoinTofSales()
+            ListPoinTofSales(),
+            Homes(),
 
 
           ],
@@ -52,7 +54,9 @@ class _NavBarState extends State<NavBar> {
 
             _bottombarItem(IconlyLight.message, "chat"),
 
-            _bottombarItem(IconlyBold.user2, "profile"),
+            _bottombarItem(IconlyBold.user2, "point de vente"),
+
+            _bottombarItem(Icons.add_box, "producteur"),
 
 
 

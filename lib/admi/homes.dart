@@ -2,8 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:gestion_akoum/admi/Producteur.dart';
 import 'package:gestion_akoum/admi/database.dart';
-
-import 'package:get/get.dart';
+import 'package:gestion_akoum/constants/color_app.dart';
 
 class Homes extends StatefulWidget {
   const Homes({super.key});
@@ -25,7 +24,7 @@ class _HomesState extends State<Homes> {
   TextEditingController passwordcontroller = TextEditingController();
 
   bool _obscurePassword = true; // Booléen pour masquer/afficher le mot de passe
-   bool _isPasswordVisible = false;
+  bool _isPasswordVisible = false;
 
   Stream? ProducteurStream;
 
@@ -46,130 +45,91 @@ class _HomesState extends State<Homes> {
     return StreamBuilder(
       stream: ProducteurStream,
       builder: (context, AsyncSnapshot snapshot) {
-        return snapshot.hasData
-            ? ListView.builder(
-                itemCount: snapshot.data.docs.length,
-                itemBuilder: (context, index) {
-                  DocumentSnapshot ds = snapshot.data.docs[index];
-                  return Container(
-                    margin: EdgeInsets.only(bottom: 20.0),
-                    child: Material(
-                      elevation: 5.0,
-                      borderRadius: BorderRadius.circular(10),
-                      child: Container(
-                        padding: EdgeInsets.all(20),
-                        width: MediaQuery.of(context).size.width,
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(10)),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              children: [
-                                Text(
-                                  "Nom: " + ds["Nom"],
-                                  style: TextStyle(
-                                      color: Colors.blue,
-                                      fontSize: 20.0,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                Spacer(),
-                                GestureDetector(
-                                  onTap: () {
-                                    nomcontroller.text = ds["Nom"];
-                                    prenomcontroller.text = ds["Prénom"];
-                                    emailcontroller.text = ds["Email"];
-                                    telephonecontroller.text = ds["Téléphone"];
-                                    villecontroller.text = ds["Ville"];
-                                    quartiercontroller.text = ds["Quartier"];
-                                    sexecontroller.text = ds["Sexe"];
-                                    usernamecontroller.text = ds["Username"];
-                                    passwordcontroller.text = ds["Password"];
-
-                                    EditProducteurDetails(ds["id"]);
-                                  },
-                                  child: Icon(
-                                    Icons.edit,
-                                    color: Colors.orange,
-                                  ),
-                                ),
-                                SizedBox(width: 5.0),
-                                GestureDetector(
-                                  onTap: () async {
-                                    final id = ds["id"].toString();
-                                    await DatabaseMethods()
-                                        .deleteProducteurDetails(id);
-                                    setState(() {});
-                                  },
-                                  child: Icon(Icons.delete, color: Colors.red),
-                                )
-                              ],
-                            ),
-                            Text(
-                              "Prénom: " + ds["Prénom"],
-                              style: TextStyle(
-                                  color: Colors.orange,
-                                  fontSize: 20.0,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            Text(
-                              "Email: " + ds["Email"],
-                              style: TextStyle(
-                                  color: Colors.blue,
-                                  fontSize: 20.0,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            Text(
-                              "Téléphone: " + ds["Téléphone"],
-                              style: TextStyle(
-                                  color: Colors.orange,
-                                  fontSize: 20.0,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            Text(
-                              "Ville: " + ds["Ville"],
-                              style: TextStyle(
-                                  color: Colors.blue,
-                                  fontSize: 20.0,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            Text(
-                              "Quartier: " + ds["Quartier"],
-                              style: TextStyle(
-                                  color: Colors.orange,
-                                  fontSize: 20.0,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            Text(
-                              "Sexe: " + ds["Sexe"],
-                              style: TextStyle(
-                                  color: Colors.blue,
-                                  fontSize: 20.0,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            Text(
-                              "Username: " + ds["Username"],
-                              style: TextStyle(
-                                  color: Colors.orange,
-                                  fontSize: 20.0,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            Text(
-                              "Password: " + ds["Password"],
-                              style: TextStyle(
-                                  color: Colors.blue,
-                                  fontSize: 20.0,
-                                  fontWeight: FontWeight.bold),
-                            )
-                          ],
+        if (!snapshot.hasData) {
+          return Center(child: CircularProgressIndicator());
+        }
+        return ListView.builder(
+          itemCount: snapshot.data.docs.length,
+          itemBuilder: (context, index) {
+            DocumentSnapshot ds = snapshot.data.docs[index];
+            return Card(
+              elevation: 3.0,
+              margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 5.0),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15.0),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(15.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _buildDetailRow("Nom", ds["Nom"], Icons.person),
+                    _buildDetailRow("Prénom", ds["Prénom"], Icons.person_outline),
+                    _buildDetailRow("Email", ds["Email"], Icons.email),
+                    _buildDetailRow("Téléphone", ds["Téléphone"], Icons.phone),
+                    _buildDetailRow("Ville", ds["Ville"], Icons.location_city),
+                    _buildDetailRow("Quartier", ds["Quartier"], Icons.home),
+                    _buildDetailRow("Sexe", ds["Sexe"], Icons.person_pin),
+                    _buildDetailRow("Username", ds["Username"], Icons.account_circle),
+                
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        IconButton(
+                          icon: Icon(Icons.edit, color: AppColor.primary),
+                          onPressed: () {
+                            nomcontroller.text = ds["Nom"];
+                            prenomcontroller.text = ds["Prénom"];
+                            emailcontroller.text = ds["Email"];
+                            telephonecontroller.text = ds["Téléphone"];
+                            villecontroller.text = ds["Ville"];
+                            quartiercontroller.text = ds["Quartier"];
+                            sexecontroller.text = ds["Sexe"];
+                            usernamecontroller.text = ds["Username"];
+                            passwordcontroller.text = ds["Password"];
+                            EditProducteurDetails(ds["id"]);
+                          },
                         ),
-                      ),
+                        IconButton(
+                          icon: Icon(Icons.delete, color: Colors.redAccent),
+                          onPressed: () async {
+                            final id = ds["id"].toString();
+                            await DatabaseMethods().deleteProducteurDetails(id);
+                            setState(() {});
+                          },
+                        ),
+                      ],
                     ),
-                  );
-                })
-            : Container();
+                  ],
+                ),
+              ),
+            );
+          },
+        );
       },
+    );
+  }
+
+  // Méthode pour créer une ligne de détail
+  Widget _buildDetailRow(String title, String content, IconData icon) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 4.0),
+      child: Row(
+        children: [
+          Icon(icon, color:  AppColor.primary),
+          SizedBox(width: 10.0),
+          Text(
+            "$title: ",
+            style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black54),
+          ),
+          Expanded(
+            child: Text(
+              content,
+              style: TextStyle(fontSize: 16.0, color: Colors.black87),
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -177,339 +137,171 @@ class _HomesState extends State<Homes> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
+        backgroundColor: AppColor.primary,
         onPressed: () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => Producteur(),
-              ));
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => Producteur()));
         },
         child: Icon(Icons.add),
       ),
       appBar: AppBar(
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              "partie",
-              style: TextStyle(
-                  color: Colors.blue,
-                  fontSize: 20.0,
-                  fontWeight: FontWeight.bold),
-            ),
-            Text(
-              "administrateur",
-              style: TextStyle(
-                  color: Colors.yellow,
-                  fontSize: 20.0,
-                  fontWeight: FontWeight.bold),
-            ),
-          ],
+        title: Text(
+          "Liste Producteurs",
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
+        backgroundColor:  AppColor.primary,
+        centerTitle: true,
       ),
       body: Container(
-        margin: EdgeInsets.only(left: 20.0, right: 20.0, top: 30.0),
+        margin: EdgeInsets.symmetric(horizontal: 10.0, vertical: 20.0),
         child: Column(
-          children: [Expanded(child: allProducteurDetails())],
+          children: [
+            Expanded(child: allProducteurDetails()),
+          ],
         ),
       ),
     );
   }
 
   Future EditProducteurDetails(String id) => showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-            content: SingleChildScrollView(
-              child: Container(
-                padding: EdgeInsets.all(20.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        GestureDetector(
-                            onTap: () {
-                              Navigator.pop(context);
-                            },
-                            child: Icon(Icons.cancel)),
-                        SizedBox(width: 60.0),
-                        Text(
-                          "Edit",
-                          style: TextStyle(
-                              color: Colors.blue,
-                              fontSize: 20.0,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        Text(
-                          "Details",
-                          style: TextStyle(
-                              color: Colors.yellow,
-                              fontSize: 20.0,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 20.0),
-                    Text("Nom",
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 24.0,
-                            fontWeight: FontWeight.bold)),
-                    SizedBox(height: 10.0),
-                    Container(
-                      padding: EdgeInsets.only(left: 10.0),
-                      decoration: BoxDecoration(
-                          border: Border.all(),
-                          borderRadius: BorderRadius.circular(10)),
-                      child: TextField(
-                        controller: nomcontroller,
-                        decoration: InputDecoration(border: InputBorder.none),
-                      ),
-                    ),
-                    SizedBox(height: 20.0),
-                    Text("Prénom",
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 24.0,
-                            fontWeight: FontWeight.bold)),
-                    SizedBox(height: 10.0),
-                    Container(
-                      padding: EdgeInsets.only(left: 10.0),
-                      decoration: BoxDecoration(
-                          border: Border.all(),
-                          borderRadius: BorderRadius.circular(10)),
-                      child: TextField(
-                        controller: prenomcontroller,
-                        decoration: InputDecoration(border: InputBorder.none),
-                      ),
-                    ),
-                    SizedBox(height: 20.0),
-                    Text("Email",
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 24.0,
-                            fontWeight: FontWeight.bold)),
-                    SizedBox(height: 10.0),
-                    Container(
-                      padding: EdgeInsets.only(left: 10.0),
-                      decoration: BoxDecoration(
-                          border: Border.all(),
-                          borderRadius: BorderRadius.circular(10)),
-                      child: TextField(
-                        controller: emailcontroller,
-                        decoration: InputDecoration(border: InputBorder.none),
-                      ),
-                    ),
-                    SizedBox(height: 20.0),
-                    Text("Téléphone",
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 24.0,
-                            fontWeight: FontWeight.bold)),
-                    SizedBox(height: 10.0),
-                    Container(
-                      padding: EdgeInsets.only(left: 10.0),
-                      decoration: BoxDecoration(
-                          border: Border.all(),
-                          borderRadius: BorderRadius.circular(10)),
-                      child: TextField(
-                        controller: telephonecontroller,
-                        decoration: InputDecoration(border: InputBorder.none),
-                      ),
-                    ),
-                    SizedBox(height: 20.0),
-                    Text("Ville",
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 24.0,
-                            fontWeight: FontWeight.bold)),
-                    SizedBox(height: 10.0),
-                    Container(
-                      padding: EdgeInsets.only(left: 10.0),
-                      decoration: BoxDecoration(
-                          border: Border.all(),
-                          borderRadius: BorderRadius.circular(10)),
-                      child: TextField(
-                        controller: villecontroller,
-                        decoration: InputDecoration(border: InputBorder.none),
-                      ),
-                    ),
-                    SizedBox(height: 20.0),
-                    Text("Quartier",
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 24.0,
-                            fontWeight: FontWeight.bold)),
-                    SizedBox(height: 10.0),
-                    Container(
-                      padding: EdgeInsets.only(left: 10.0),
-                      decoration: BoxDecoration(
-                          border: Border.all(),
-                          borderRadius: BorderRadius.circular(10)),
-                      child: TextField(
-                        controller: quartiercontroller,
-                        decoration: InputDecoration(border: InputBorder.none),
-                      ),
-                    ),
-                    SizedBox(height: 20.0),
-                    Text("Sexe",
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 24.0,
-                            fontWeight: FontWeight.bold)),
-                    SizedBox(height: 10.0),
-                    Container(
-                      padding: EdgeInsets.only(left: 10.0),
-                      decoration: BoxDecoration(
-                          border: Border.all(),
-                          borderRadius: BorderRadius.circular(10)),
-                      child: TextField(
-                        controller: sexecontroller,
-                        decoration: InputDecoration(border: InputBorder.none),
-                      ),
-                    ),
-                    SizedBox(height: 20.0),
-                    Text("Username",
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 24.0,
-                            fontWeight: FontWeight.bold)),
-                    SizedBox(height: 10.0),
-                    Container(
-                      padding: EdgeInsets.only(left: 10.0),
-                      decoration: BoxDecoration(
-                          border: Border.all(),
-                          borderRadius: BorderRadius.circular(10)),
-                      child: TextField(
-                        controller: usernamecontroller,
-                        decoration: InputDecoration(border: InputBorder.none),
-                      ),
-                    ),
-                    SizedBox(height: 20.0),
-                    Text("Password",
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 24.0,
-                            fontWeight: FontWeight.bold)),
-                    SizedBox(height: 10.0),
-                    Container(
-                      padding: EdgeInsets.only(left: 10.0),
-                      decoration: BoxDecoration(
-                          border: Border.all(),
-                          borderRadius: BorderRadius.circular(10)),
-                      child: TextField(
-                        controller: passwordcontroller,
-                        obscureText: _obscurePassword,
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                          suffixIcon: IconButton(
-                            icon: Icon(
-                              _obscurePassword
-                                  ? Icons.visibility_off
-                                  : Icons.visibility,
-                              color: Colors.grey,
-                            ),
-                            onPressed: () {
-                              setState(() {
-                                _obscurePassword = !_obscurePassword;
-                              });
-                            },
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 30.0),
-                    Center(
-                      child: ElevatedButton(
-                        onPressed: () async {
-                          Map<String, dynamic> updateInfo = {
-                            "Nom": nomcontroller.text,
-                            "Prénom": prenomcontroller.text,
-                            "Email": emailcontroller.text,
-                            "Téléphone": telephonecontroller.text,
-                            "Ville": villecontroller.text,
-                            "Quartier": quartiercontroller.text,
-                            "Sexe": sexecontroller.text,
-                            "Username": usernamecontroller.text,
-                            "Password": passwordcontroller.text,
-                            "id": id,
-                          };
-                          await DatabaseMethods()
-                              .updateProducteurDetails(id, updateInfo)
-                              .then((value) {});
-                          Navigator.pop(context);
-                        },
-                        child: Text("Update"),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            ),
-          ));
-           Widget buildTextField(String labelText, TextEditingController controller,
+    context: context,
+    builder: (context) => AlertDialog(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15.0),
+      ),
+      title: Row(
+        children: [
+          Icon(Icons.edit, color: AppColor.primary),
+          SizedBox(width: 10.0),
+          Text(
+            "Modifier les détails",
+            style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+          ),
+        ],
+      ),
+      content: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            buildTextField("Nom", nomcontroller),
+            buildTextField("Prénom", prenomcontroller),
+            buildTextField("Email", emailcontroller),
+            buildTextField("Téléphone", telephonecontroller),
+            buildTextField("Ville", villecontroller),
+            buildTextField("Quartier", quartiercontroller),
+            buildTextField("Sexe", sexecontroller),
+            buildTextField("Username", usernamecontroller),
+
+          ],
+        ),
+      ),
+      actions: [
+        TextButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          child: Text(
+            "Annuler",
+            style: TextStyle(color: Colors.redAccent),
+          ),
+        ),
+        ElevatedButton(
+          onPressed: () async {
+            Map<String, dynamic> updateInfo = {
+              "Nom": nomcontroller.text,
+              "Prénom": prenomcontroller.text,
+              "Email": emailcontroller.text,
+              "Téléphone": telephonecontroller.text,
+              "Ville": villecontroller.text,
+              "Quartier": quartiercontroller.text,
+              "Sexe": sexecontroller.text,
+              "Username": usernamecontroller.text,
+
+            };
+            await DatabaseMethods()
+                .updateProducteurDetails(id, updateInfo)
+                .then((value) {
+              Navigator.pop(context);
+            });
+          },
+          child: Text("Mettre à jour"),
+        ),
+      ],
+    ),
+  );
+
+  // Méthode pour créer un champ de texte avec du style
+  Widget buildTextField(String labelText, TextEditingController controller,
       {bool obscureText = false}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           labelText,
-          style: const TextStyle(
-              color: Colors.black, fontSize: 24.0, fontWeight: FontWeight.bold),
-        ),
-        const SizedBox(height: 10.0),
-        Container(
-          padding: const EdgeInsets.only(left: 10.0),
-          decoration: BoxDecoration(
-              border: Border.all(), borderRadius: BorderRadius.circular(10)),
-          child: TextField(
-            controller: controller,
-            decoration: const InputDecoration(border: InputBorder.none),
-            obscureText: obscureText,
+          style: TextStyle(
+            color: Colors.black87,
+            fontSize: 18.0,
+            fontWeight: FontWeight.bold,
           ),
         ),
-        const SizedBox(height: 20.0),
+        SizedBox(height: 10.0),
+        TextField(
+          controller: controller,
+          decoration: InputDecoration(
+            filled: true,
+            fillColor: Colors.grey[200],
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10.0),
+              borderSide: BorderSide.none,
+            ),
+          ),
+          obscureText: obscureText,
+        ),
+        SizedBox(height: 20.0),
       ],
     );
   }
 
-  Widget buildPasswordTextField(
-      String labelText, TextEditingController controller) {
+  // Méthode pour créer un champ de texte pour le mot de passe
+  Widget buildPasswordTextField(String labelText, TextEditingController controller) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           labelText,
-          style: const TextStyle(
-              color: Colors.black, fontSize: 24.0, fontWeight: FontWeight.bold),
-        ),
-        const SizedBox(height: 10.0),
-        Container(
-          padding: const EdgeInsets.only(left: 10.0),
-          decoration: BoxDecoration(
-              border: Border.all(), borderRadius: BorderRadius.circular(10)),
-          child: TextField(
-            controller: controller,
-            decoration: InputDecoration(
-              border: InputBorder.none,
-              suffixIcon: IconButton(
-                icon: Icon(
-                  _isPasswordVisible ? Icons.visibility : Icons.visibility_off,
-                ),
-                onPressed: () {
-                  setState(() {
-                    _isPasswordVisible = !_isPasswordVisible;
-                  });
-                },
-              ),
-            ),
-            obscureText: !_isPasswordVisible,
+          style: TextStyle(
+            color: Colors.black87,
+            fontSize: 18.0,
+            fontWeight: FontWeight.bold,
           ),
         ),
-        const SizedBox(height: 20.0),
+        SizedBox(height: 10.0),
+        TextField(
+          controller: controller,
+          obscureText: _obscurePassword,
+          decoration: InputDecoration(
+            filled: true,
+            fillColor: Colors.grey[200],
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10.0),
+              borderSide: BorderSide.none,
+            ),
+            suffixIcon: IconButton(
+              icon: Icon(
+                _isPasswordVisible ? Icons.visibility : Icons.visibility_off,
+                color:  AppColor.primary,
+              ),
+              onPressed: () {
+                setState(() {
+                  _isPasswordVisible = !_isPasswordVisible;
+                  _obscurePassword = !_obscurePassword;
+                });
+              },
+            ),
+          ),
+        ),
+        SizedBox(height: 20.0),
       ],
     );
   }
 }
-
-

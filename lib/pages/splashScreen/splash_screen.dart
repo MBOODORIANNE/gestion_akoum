@@ -49,7 +49,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   ),*/
            //   Lottie.asset("assets/image/an.json",width: 300,height: 300, backgroundLoading: false),
               SizedBox(height: 10.h,),
-              Text("Medics",style: GoogleFonts.montserrat(
+              Text("AKOM",style: GoogleFonts.montserrat(
                 fontSize: 40,
                 color:AppColor.primary,
                 fontWeight:FontWeight.bold,

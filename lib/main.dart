@@ -41,7 +41,7 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        home: Homes(),
+        home:NavBar(),
         debugShowCheckedModeBanner: false,
       ),
       designSize: Size(360, 690),
